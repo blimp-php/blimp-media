@@ -1,0 +1,31 @@
+{
+    "name": "blimp/blimp-media",
+    "version": "0.1.3",
+    "type": "library",
+    "description": "Blimp framework",
+    "license": "LGPL-3.0+",
+    "authors": [
+        {
+            "name": "Nelson Antunes",
+            "email": "nelson.antunes@gmail.com",
+            "homepage": "http://nantunes.net",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "blimp/blimp-data-access-mongo": "1.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Blimp\\Media\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "repositories": [ { "type": "composer", "url": "http://packages.nantunes.net/" } ]
+}
