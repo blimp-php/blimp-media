@@ -10,17 +10,28 @@ use Blimp\Http\BlimpHttpException;
 
 use Blimp\DataAccess\Rest\MongoODMResource;
 
-class Media extends MongoODMResource {
-    public function process(Container $api, Request $request, $id, $_securityDomain = null) {
+class Media {
+    public function process(Container $api, Request $request, $id, $_bucket, $_securityDomain = null) {
         switch ($request->getMethod()) {
             case 'GET':
-                $result = super::process($api, $request, $id, $_securityDomain);
+                $token = $api['security']->getToken();
+                $user = $token !== null ? $token->getUser() : null;
 
-                $file = $result->getFile();
-                if(filter_var($file, FILTER_VALIDATE_URL)) {
-                    return new RedirectResponse($file);
-                } else if(file_exists($api['media.physical.path'].$file)) {
-                    return new BinaryFileResponse($api['media.physical.path'].$file);
+                $contentLang = $api['http.utils']->guessContentLang($request->getLanguages());
+
+                $result = $api['dataaccess.mongoodm.utils']->get('\Blimp\Media\Documents\Media', $id, $contentLang, $_securityDomain, $user);
+
+                $b = $result->getBucket();
+                if($b === $_bucket) {
+                    $file = $result->getFilePath();
+
+                    if(filter_var($file, FILTER_VALIDATE_URL)) {
+                        return new RedirectResponse($file);
+                    } else if(file_exists($api['media.physical.path'].'/'.$b.'/'.$file)) {
+                        return new BinaryFileResponse($result->getBasePath().'/'.$result->getBucket().'/'.$file);
+                    } else if(file_exists($api['media.physical.path'].'/'.$b.'/'.$file)) {
+                        return new BinaryFileResponse($api['media.physical.path'].'/'.$result->getBucket().'/'.$file);
+                    }
                 }
 
                 throw new BlimpHttpException(Response::HTTP_NOT_FOUND, "Not found");

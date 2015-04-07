@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "blimp/blimp-data-access-mongo": "1.0.*"
+        "blimp/blimp-data-access-mongo": "1.0.*",
+        "imagine/imagine": "dev-master"
     },
     "autoload": {
         "psr-4": {

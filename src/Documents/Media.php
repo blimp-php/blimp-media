@@ -17,7 +17,10 @@ class Media extends BlimpDocument {
     protected $basePath;
 
     /** @ODM\String */
-    protected $relativePath;
+    protected $bucket;
+
+    /** @ODM\String */
+    protected $filePath;
 
     /** @Gedmo\Locale */
     private $locale;
@@ -36,21 +39,30 @@ class Media extends BlimpDocument {
         return $this->basePath;
     }
 
-    public function setRelativePath($relativePath) {
-        $this->relativePath = $relativePath;
+    public function setBucket($bucket) {
+        $this->bucket = $bucket;
     }
-    public function getRelativePath() {
-        return $this->relativePath;
+    public function getBucket() {
+        return $this->bucket;
+    }
+
+    public function setFilePath($filePath) {
+        $this->filePath = $filePath;
+    }
+    public function getFilePath() {
+        return $this->filePath;
     }
 
     public function setTranslatableLocale($locale) {
         $this->locale = $locale;
     }
 
-    public function toStdClass() {
-        return {
+    public function toStdClass($api, $level = 0) {
+        $obj = [
             'label' => $this->getLabel(),
-            'url' => $this->getId()
-        };
+            'url' => $api['media.http.path'].'/'.$this->getBucket().'/'.$this->getId()
+        ];
+
+        return $obj;
     }
 }
