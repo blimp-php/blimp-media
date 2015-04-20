@@ -42,6 +42,29 @@ class MediaServiceProvider implements ServiceProviderInterface {
             return $media;
         });
 
+        $api['media.store.download'] = $api->protect(function ($url, $bucket, $filename = null, $extension = null) use($api) {
+            if(empty($filename)) {
+                $filename = sha1(uniqid(mt_rand(), true));
+            }
+
+            if(empty($extension)) {
+                $extension = 'bin';
+            }
+
+            file_put_contents($api['media.physical.path'] . '/' . $bucket . '/' . $filename . '.' . $extension, fopen($url, 'r'));
+
+            $dm = $api['dataaccess.mongoodm.documentmanager']();
+
+            $media = new Media();
+            $media->setBasePath($api['media.physical.path']);
+            $media->setBucket($bucket);
+            $media->setFilePath($filename . '.' . $extension);
+
+            $dm->persist($media);
+
+            return $media;
+        });
+
         $api->extend('blimp.extend', function ($status, $api) {
             if($status) {
                 if ($api->offsetExists('dataaccess.mongoodm.mappings')) {
