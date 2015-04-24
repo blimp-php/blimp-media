@@ -23,7 +23,7 @@ class Media extends BlimpDocument {
     protected $filePath;
 
     /** @Gedmo\Locale */
-    private $locale;
+    protected $locale;
 
     public function setLabel($label) {
         $this->label = $label;
