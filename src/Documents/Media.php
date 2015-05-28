@@ -57,7 +57,7 @@ class Media extends BlimpDocument {
         $this->locale = $locale;
     }
 
-    public function toStdClass($api, $level = 0) {
+    public function toStdClass($api, $level = 0, $to_get = [], $to_embed = []) {
         $obj = [
             'label' => $this->getLabel(),
             'url' => $api['media.http.path'].'/'.$this->getBucket().'/'.$this->getId()
