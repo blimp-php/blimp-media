@@ -1,6 +1,6 @@
 {
     "name": "blimp/blimp-media",
-    "version": "0.1.7",
+    "version": "0.2.1",
     "type": "library",
     "description": "Blimp framework",
     "license": "LGPL-3.0+",
@@ -15,7 +15,8 @@
     "require": {
         "php": ">=5.4.0",
         "blimp/blimp-data-access-mongo": "1.0.*",
-        "imagine/imagine": "dev-master"
+        "league/glide": "0.3.*@dev",
+        "league/flysystem": "~1.1@dev"
     },
     "autoload": {
         "psr-4": {
