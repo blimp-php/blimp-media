@@ -32,7 +32,7 @@ class Media
 
                 $result = $api['dataaccess.mongoodm.utils']->get($_resourceClass, $id, ['fields' => $field], $contentLang, $_securityDomain, $user, $_parentResourceClass, $_parentIdField, $parent_id);
 
-                if (!empty($result) && !empty($result[$field]) && ($index >= 0 || !empty($result[$field][$index]))) {
+                if (!empty($result) && !empty($result[$field]) && ($index < 0 || !empty($result[$field][$index]))) {
                     $fileinfo = $index < 0 ? $result[$field] : $result[$field][$index];
 
                     if (filter_var($fileinfo['file'], FILTER_VALIDATE_URL)) {
